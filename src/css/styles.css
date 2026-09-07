@@ -17,10 +17,12 @@ body,
 #root {
   width: 100%;
   max-width: 100%;
-  min-height: 100vh;
+  height: 100vh; /* CAMBIAR de min-height a height fija */
+  max-height: 100vh; /* ASEGURAR que el root nunca crezca más allá de la pantalla */
   padding: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Evita scrolls fantasma en los bordes de Electron */
 }
 
 body {
@@ -28,6 +30,7 @@ body {
   background-color: #242424;
   color: white;
   font-size: 1.6rem;
+  overflow: hidden;
 }
 
 #root {
@@ -43,18 +46,21 @@ header {
 main {
   display: flex;
   flex-direction: row;
- /*  background-color: violet; */
   gap: 1%;
   flex-grow: 1;
   margin: 1rem;
   margin-top: 0;
+  height: 0; /* TRUCO FLEXBOX: Obliga al contenedor a respetar el espacio restante del header sin salirse */
+  overflow: hidden; /* Evita que el menú o el inspector empujen el layout */
 }
 
-#navegacion, #menu-lateral, #contenido-principal, #inspector {
-    background-color: black;
-   padding: 1rem;
-    border-radius: 1rem;
-    
+#navegacion,
+#menu-lateral,
+#contenido-principal,
+#inspector {
+  background-color: black;
+  padding: 1rem;
+  border-radius: 1rem;
 }
 
 #navegacion {
@@ -71,8 +77,24 @@ main {
 #contenido-principal {
   /* background-color: cadetblue; */
   width: 50%;
+  overflow-y: auto; /* Tu propiedad actual, ahora funcionará porque su padre 'main' tiene un límite */
 }
 #inspector {
   /* background-color: chartreuse; */
   width: 24%;
+}
+
+.contenedor-wallpapers {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.wallpaper img {
+  width: 20rem;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  border-radius: 1rem;
 }
