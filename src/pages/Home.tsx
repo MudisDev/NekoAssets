@@ -1,12 +1,53 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "../css/normalize.css";
 import "../css/styles.css";
 import { Navegacion } from '../components/Navegacion';
 import { MenuLateral } from '../components/MenuLateral';
 import { ContenidoPrincipal } from '../components/ContenidoPrincipal';
 import { Inspector } from '../components/Inspector';
+import { useFetch } from '../hooks/useFetch';
+import { mostrarImagen, mostrarImagenVista } from '../config/urlConfig';
+
+interface interfaceListaWallpapers {
+  id_imagen: number;
+  url: string;
+}
+interface interfaceWallpaper {
+  id_imagen: string;
+  url: string;
+  semilla: string;
+  imagen_listada: string;
+  fecha_insercion: string;
+  fecha_actualizacion: string;
+  id_modelo_base: string;
+  prompt_positivo_general: string;
+  prompt_negativo_general: string;
+  nombre_modelo_base: string;
+}
 
 export const Home = () => {
+
+  const [endpoint, setEndpoint] = React.useState<string | null>(null);
+  const [metodo, setMetodo] = React.useState<string | null>(null);
+  const [parametros, setParametros] = React.useState<string | null>(null);
+  const [seleccion, setSeleccion] = React.useState<number | null>(null);
+  const [limpiar, setLimpiar] = React.useState<boolean>(true);
+
+  const { data, fetchData, }
+    = useFetch<interfaceListaWallpapers>({ endpoint: endpoint, metodo: metodo, params: parametros });
+  const { data: wallpaperData, fetchData: consultarWallpaper, }
+    = useFetch<interfaceWallpaper>({ endpoint: mostrarImagenVista, metodo: 'GET', });
+
+  useEffect(() => {
+    if (!endpoint) return;
+    fetchData();
+  }, [endpoint])
+
+  useEffect(() => {
+    if (!seleccion) return;
+    consultarWallpaper({ id_imagen: seleccion });
+  }, [seleccion])
+
   return (
     <>
       <header>
@@ -14,9 +55,9 @@ export const Home = () => {
       </header>
 
       <main>
-        <MenuLateral />
-        <ContenidoPrincipal />
-        <Inspector />
+        <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} />
+        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} />
+        <Inspector wallpaper={wallpaperData} limpieza={limpiar} />
       </main>
     </>
   )
