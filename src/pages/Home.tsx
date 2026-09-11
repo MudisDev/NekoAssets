@@ -7,6 +7,8 @@ import { ContenidoPrincipal } from '../components/ContenidoPrincipal';
 import { Inspector } from '../components/Inspector';
 import { useFetch } from '../hooks/useFetch';
 import { mostrarImagen, mostrarImagenVista } from '../config/urlConfig';
+import { Configuracion } from '../components/Configuracion';
+import { VisorWallpaper } from '../components/VisorWallpaper';
 
 interface interfaceListaWallpapers {
   id_imagen: number;
@@ -33,6 +35,11 @@ export const Home = () => {
   const [seleccion, setSeleccion] = React.useState<number | null>(null);
   const [limpiar, setLimpiar] = React.useState<boolean>(true);
 
+  const [wallpaperSeleccionado, setWallpaperSeleccionado] = React.useState<string>('');
+
+  const [configuracion, setConfiguracion] = React.useState<boolean>(false);
+  const [visorWallpaper, setVisorWallpaper] = React.useState<boolean>(false);
+
   const { data, fetchData, }
     = useFetch<interfaceListaWallpapers>({ endpoint: endpoint, metodo: metodo, params: parametros });
   const { data: wallpaperData, fetchData: consultarWallpaper, }
@@ -48,16 +55,24 @@ export const Home = () => {
     consultarWallpaper({ id_imagen: seleccion });
   }, [seleccion])
 
+  useEffect(() => {
+    console.log("HOME ",wallpaperSeleccionado);
+   }, [wallpaperSeleccionado])
+
   return (
     <>
       <header>
-        <Navegacion />
+        <Navegacion funcionConfiguracion={setConfiguracion} />
       </header>
 
       <main>
         <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} />
         <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} />
-        <Inspector wallpaper={wallpaperData} limpieza={limpiar} />
+        <Inspector wallpaper={wallpaperData} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
+
+        {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} />)}
+        {visorWallpaper && (<VisorWallpaper funcionVisor={setVisorWallpaper} wallpaper={wallpaperSeleccionado} />)}
+
       </main>
     </>
   )

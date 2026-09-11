@@ -5,7 +5,7 @@ import { useFetch } from '../hooks/useFetch'
     "Success": string;
 } */
 
-export const Inspector = ({ wallpaper, limpieza }) => {
+export const Inspector = ({ wallpaper, limpieza, funcionVisor, funcionSeleccionar }) => {
 
     //const url = "http://localhost:3000";
 
@@ -15,7 +15,11 @@ export const Inspector = ({ wallpaper, limpieza }) => {
         fetchData();
     }, []) */
 
-    console.log("WALLPAPERS -> ", wallpaper);
+    const seleccionar = (url) => {
+        console.log("funcion SELECCIONAR  ", url);
+        funcionVisor(true);
+        funcionSeleccionar(url);
+    }
 
     return (
         <div id='inspector'>
@@ -26,7 +30,7 @@ export const Inspector = ({ wallpaper, limpieza }) => {
 
             {(limpieza || !wallpaper) && (<div className='placeholder'><p><strong>Inspector</strong></p><p>Ningun Asset seleccionado</p><p>Selecciona un asset para ver información y propiedades. </p></div>)}
             {!limpieza && wallpaper && (<>
-                <img src={wallpaper.url} style={{ width: "5rem", aspectRatio: 9 / 16, objectFit: 'cover' }} />
+                <img src={wallpaper.url} style={{ width: "30rem", aspectRatio: 9 / 16, objectFit: 'cover', borderRadius: "1rem" }} />
                 <p>id imagen: {wallpaper.id_imagen}</p>
                 <p>semilla: {wallpaper.semilla}</p>
                 <p>fecha insercion: {wallpaper.fecha_insercion}</p>
@@ -38,7 +42,7 @@ export const Inspector = ({ wallpaper, limpieza }) => {
                 <p>prompt + general: {wallpaper.prompt_positivo_general}</p>
                 <p>prompt - general: {wallpaper.prompt_negativo_general}</p>
 
-
+                <button onClick={() => { seleccionar(wallpaper.url) }}>Ver Wallpaper</button>
             </>)}
         </div>
     )

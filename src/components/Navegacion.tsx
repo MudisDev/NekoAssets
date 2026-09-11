@@ -1,16 +1,20 @@
 import React from 'react'
 
-export const Navegacion = () => {
+export const Navegacion = ({ funcionConfiguracion }) => {
+
+    const setconfig = () => {
+        funcionConfiguracion(true);
+    }
     return (
         <div id='navegacion'>
             <div className='logo'>
                 <p>NekoAssets</p>
             </div>
             <div className='busqueda' >
-                <input placeholder='Buscar Bv'></input>
+                <input placeholder='Buscar'></input>
             </div>
             <div className='configuracion'>
-                <button>⚙️</button>
+                <button onClick={setconfig}>⚙️</button>
             </div>
         </div>
     )

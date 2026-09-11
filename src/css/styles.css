@@ -54,6 +54,85 @@ main {
   overflow: hidden; /* Evita que el menú o el inspector empujen el layout */
 }
 
+#login {
+  display: flex;
+  gap: 1rem;
+  /*   background-color: aqua; */
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedor-login {
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+  gap: 1rem;
+  transform: translateY(-25%);
+  /*   background-color: aquamarine; */
+}
+
+.contenedor-login p {
+  color: white;
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.contenedor-login input {
+  border-radius: 1rem;
+  height: 4rem;
+}
+
+.contenedor-login input::placeholder {
+  text-align: center;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 50%);
+  inset: 0;
+  z-index: 1000;
+  position: fixed;
+}
+
+#configuracion {
+  background-color: black;
+  width: 50%;
+  height: 50%;
+  border-radius: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+#visor-wallpaper {
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+#visor-wallpaper img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
 #navegacion,
 #menu-lateral,
 #contenido-principal,
@@ -69,17 +148,23 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* align-items: center; */
-  /*  background-color: white; */
+  align-items: center;
+  /* background-color: aquamarine; */
   gap: 2rem;
   height: 6rem;
 }
 .logo,
 .configuracion {
-  width: 24%;
+  width: 19%;
   height: 100%;
   /* background-color: red; */
-  padding: 1rem;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo p {
@@ -88,7 +173,7 @@ main {
 }
 
 .busqueda {
-  width: 50%;
+  width: 60%;
   height: 100%;
   /* background-color: #1a1a1a; */
   /*  background-color: aquamarine; */
@@ -97,11 +182,16 @@ main {
 .busqueda input {
   width: 100%;
   height: 100%;
+  border-radius: 1rem;
+}
+
+.busqueda input::placeholder {
+  text-align: center;
 }
 
 #menu-lateral {
   /* background-color: blueviolet; */
-  width: 24%;
+  width: 19%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -109,12 +199,13 @@ main {
 
 #contenido-principal {
   /* background-color: cadetblue; */
-  width: 50%;
+  width: 55%;
   overflow-y: auto; /* Tu propiedad actual, ahora funcionará porque su padre 'main' tiene un límite */
 }
 #inspector {
   /* background-color: chartreuse; */
   width: 24%;
+  overflow-y: auto;
 }
 
 .contenedor-wallpapers {
@@ -125,6 +216,11 @@ main {
   justify-content: center;
   gap: 1rem;
 }
+
+.wallpaper {
+  padding: 0;
+}
+
 .wallpaper img {
   width: 20rem;
   aspect-ratio: 9/16;

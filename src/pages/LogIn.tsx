@@ -8,9 +8,13 @@ export const LogIn = () => {
     }
 
     return (
-        <div><p style={{ color: 'white', fontSize: 40, fontWeight: 'bold' }}>NekoAssets</p>
-
-            <button onClick={IniciarSesion}>Iniciar Sesion</button>
+        <div id='login'>
+            <div className='contenedor-login'>
+                <p>NekoAssets</p>
+                <input placeholder='Usuario'></input>
+                <input placeholder='Contraseña'></input>
+                <button onClick={IniciarSesion}>Iniciar Sesion</button>
+            </div>
         </div>
 
     )
