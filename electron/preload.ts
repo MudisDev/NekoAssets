@@ -1,4 +1,5 @@
 import { ipcRenderer, contextBridge } from 'electron'
+import { configuracion } from '../src/types/electron'
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
@@ -21,4 +22,13 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 
   // You can expose other APTs you need here.
   // ...
+
+
 })
+
+contextBridge.exposeInMainWorld("electronAPI", {
+  obtenerArchivos: () => ipcRenderer.invoke("obtener-archivos"),
+  obtenerConfiguracion: () => ipcRenderer.invoke("leer-configuracion"),
+  guardarConfiguracion: (config: configuracion) => ipcRenderer.invoke("escribir-configuracion", config),
+  seleccionarDirectorio: () => ipcRenderer.invoke("seleccionar-directorio"),
+});

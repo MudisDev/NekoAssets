@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../css/normalize.css";
 import "../css/styles.css";
 import { Navegacion } from '../components/Navegacion';
@@ -27,6 +27,12 @@ interface interfaceWallpaper {
   nombre_modelo_base: string;
 }
 
+interface configuracionAPI {
+  //clave: string;
+  directorioCheckpoints: string;
+  directorioLoras: string;
+}
+
 export const Home = () => {
 
   const [endpoint, setEndpoint] = React.useState<string | null>(null);
@@ -37,6 +43,7 @@ export const Home = () => {
 
   const [wallpaperSeleccionado, setWallpaperSeleccionado] = React.useState<string>('');
 
+  const [configuracionJson, setConfiguracionJson] = useState<configuracionAPI | null>(null);
   const [configuracion, setConfiguracion] = React.useState<boolean>(false);
   const [visorWallpaper, setVisorWallpaper] = React.useState<boolean>(false);
 
@@ -56,9 +63,26 @@ export const Home = () => {
   }, [seleccion])
 
   useEffect(() => {
-    console.log("HOME ",wallpaperSeleccionado);
-   }, [wallpaperSeleccionado])
+    console.log("HOME ", wallpaperSeleccionado);
+  }, [wallpaperSeleccionado])
 
+
+/*   useEffect(() => {
+    const fileSystem2 = async () => {
+      console.log("ENTRO A filesyste2");
+      const archivos = await window.electronAPI.obtenerConfiguracion();
+      setConfiguracionJson(archivos);
+      console.log("CONFIGURACION -> ", archivos);
+    };
+    fileSystem2();
+  }, []) */
+
+  /*   useEffect(()=>{
+      console.log("Home json -> ",configuracionJson);
+      window.electronAPI.guardarConfiguracion(configuracionJson);
+    }, [configuracionJson])
+  
+   */
   return (
     <>
       <header>
@@ -70,7 +94,7 @@ export const Home = () => {
         <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} />
         <Inspector wallpaper={wallpaperData} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
 
-        {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} />)}
+        {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} json={configuracionJson} setJson={setConfiguracionJson} />)}
         {visorWallpaper && (<VisorWallpaper funcionVisor={setVisorWallpaper} wallpaper={wallpaperSeleccionado} />)}
 
       </main>

@@ -1,8 +1,12 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-
+//--
+import { ipcMain } from "electron";
+import fs from "node:fs";
+import { json } from 'node:stream/consumers';
+//--
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -46,6 +50,35 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 }
+// --
+ipcMain.handle("obtener-archivos", () => {
+  const rutaAssets = path.join(process.env.APP_ROOT, "assets");
+  return fs.readdirSync(rutaAssets);
+});
+
+ipcMain.handle("leer-configuracion", () => {
+  const rutaConfig = path.join(process.env.APP_ROOT, "src/config/configuracion.json");
+  const contenido = fs.readFileSync(rutaConfig, "utf-8");
+  return JSON.parse(contenido);
+});
+
+ipcMain.handle("escribir-configuracion", (event, configJson) => {
+  const rutaConfig = path.join(process.env.APP_ROOT, "src/config/configuracion.json");
+  try {
+    fs.writeFileSync(rutaConfig, JSON.stringify(configJson, null, 2));
+    console.log('JSON saved.');
+  } catch (err) {
+    console.error(err);
+  }
+});
+ipcMain.handle("seleccionar-directorio", () => {
+  const seleccion = dialog.showOpenDialogSync({ defaultPath: process.env.APP_ROOT, properties: ['openDirectory'] });
+  if (!seleccion)
+    return null;
+  return seleccion[0];
+})
+
+//--
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

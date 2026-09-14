@@ -20,3 +20,9 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // You can expose other APTs you need here.
   // ...
 });
+electron.contextBridge.exposeInMainWorld("electronAPI", {
+  obtenerArchivos: () => electron.ipcRenderer.invoke("obtener-archivos"),
+  obtenerConfiguracion: () => electron.ipcRenderer.invoke("leer-configuracion"),
+  guardarConfiguracion: (config) => electron.ipcRenderer.invoke("escribir-configuracion", config),
+  seleccionarDirectorio: () => electron.ipcRenderer.invoke("seleccionar-directorio")
+});

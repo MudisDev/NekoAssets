@@ -111,6 +111,21 @@ main {
   padding: 2rem;
 }
 
+ .contenedor-urls{
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+  background-color: #1a1a1a;
+  height: 5rem;
+  align-items: center;
+ }
+
+ .contenedor-urls button{
+  border-width: 0.2rem;
+  border-color: black;
+ }
+
 #visor-wallpaper {
   background-color: black;
   width: 100%;

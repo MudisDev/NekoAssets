@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate, } from 'react-router-dom'
 
 export const LogIn = () => {
@@ -6,6 +7,19 @@ export const LogIn = () => {
     const IniciarSesion = () => {
         navigate("/home");
     }
+
+    useEffect(() => {
+        const fileSystem = async () => {
+            console.log("ENTRO A filesyste");
+            const archivos = await window.electronAPI.obtenerArchivos();
+            console.log("ARCHIVOS -> ", archivos);
+        };
+        fileSystem();
+    }, [])
+    
+
+
+
 
     return (
         <div id='login'>
