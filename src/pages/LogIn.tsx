@@ -8,7 +8,7 @@ export const LogIn = () => {
         navigate("/home");
     }
 
-    useEffect(() => {
+/*     useEffect(() => {
         const fileSystem = async () => {
             console.log("ENTRO A filesyste");
             const archivos = await window.electronAPI.obtenerArchivos();
@@ -18,7 +18,7 @@ export const LogIn = () => {
     }, [])
     
 
-
+ */
 
 
     return (

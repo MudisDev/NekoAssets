@@ -1,7 +1,7 @@
 import React from 'react'
 import { mostrarImagenes, mostrarImagenesFavoritas } from '../config/urlConfig'
 
-export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar }) => {
+export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar, formulario }) => {
 
     const listarImagenes = () => {
         console.log("Se van a listar todas Bv");
@@ -9,6 +9,7 @@ export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar }) =>
         funcion2('GET');
         funcion3(null);
         funcionLimpiar(false);
+        formulario(false);
     }
 
     const limpiarSeleccion = () => {
@@ -17,6 +18,7 @@ export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar }) =>
         funcion2(null);
         funcion3(null);
         funcionLimpiar(true);
+        formulario(false);
     }
 
     const listarFavoritas = () => {
@@ -25,6 +27,12 @@ export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar }) =>
         funcion2('GET');
         funcion3({ id_usuario: 1 })
         funcionLimpiar(false);
+        formulario(false);
+    }
+
+    const formularioGenerar = () => {
+        funcionLimpiar(false);
+        formulario(true);
     }
 
     return (
@@ -36,7 +44,7 @@ export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar }) =>
             <button>Recientes</button>
             <button onClick={listarFavoritas}>Favoritos</button>
             <p>Generacion</p>
-            <button>Generaciones</button>
+            <button onClick={formularioGenerar}>Generaciones</button>
             <button>Historial</button>
             <p>Organizacion</p>
             <button>Colecciones</button>

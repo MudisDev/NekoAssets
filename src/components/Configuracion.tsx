@@ -19,13 +19,15 @@ export const Configuracion = ({ funcionConfiguracion, json, setJson }) => {
     const seleccionarDirectorioCheckpoints = async () => {
         const response = await window.electronAPI.seleccionarDirectorio();
         console.log("DIRECTORIO checkpoints -> ", response);
-        setJson({ ...json, directorioCheckpoints: response });
+        if (response)
+            setJson({ ...json, directorioCheckpoints: response });
     }
 
     const seleccionarDirectorioLoras = async () => {
         const response = await window.electronAPI.seleccionarDirectorio();
         console.log("DIRECTORIO loras -> ", response);
-        setJson({ ...json, directorioLoras: response });
+        if (response)
+            setJson({ ...json, directorioLoras: response });
     }
 
 

@@ -46,6 +46,7 @@ export const Home = () => {
   const [configuracionJson, setConfiguracionJson] = useState<configuracionAPI | null>(null);
   const [configuracion, setConfiguracion] = React.useState<boolean>(false);
   const [visorWallpaper, setVisorWallpaper] = React.useState<boolean>(false);
+  const [verFormulario, setVerFormulario] = React.useState<boolean>(false);
 
   const { data, fetchData, }
     = useFetch<interfaceListaWallpapers>({ endpoint: endpoint, metodo: metodo, params: parametros });
@@ -67,15 +68,15 @@ export const Home = () => {
   }, [wallpaperSeleccionado])
 
 
-/*   useEffect(() => {
-    const fileSystem2 = async () => {
+  useEffect(() => {
+    const cargarConfiguracionJSON = async () => {
       console.log("ENTRO A filesyste2");
       const archivos = await window.electronAPI.obtenerConfiguracion();
       setConfiguracionJson(archivos);
       console.log("CONFIGURACION -> ", archivos);
     };
-    fileSystem2();
-  }, []) */
+    cargarConfiguracionJSON();
+  }, [])
 
   /*   useEffect(()=>{
       console.log("Home json -> ",configuracionJson);
@@ -90,13 +91,12 @@ export const Home = () => {
       </header>
 
       <main>
-        <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} />
-        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} />
+        <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} formulario={setVerFormulario} json={configuracionJson} />
+        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} formulario={verFormulario} json={configuracionJson}/>
         <Inspector wallpaper={wallpaperData} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
 
         {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} json={configuracionJson} setJson={setConfiguracionJson} />)}
         {visorWallpaper && (<VisorWallpaper funcionVisor={setVisorWallpaper} wallpaper={wallpaperSeleccionado} />)}
-
       </main>
     </>
   )

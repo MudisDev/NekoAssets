@@ -21,7 +21,7 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // ...
 });
 electron.contextBridge.exposeInMainWorld("electronAPI", {
-  obtenerArchivos: () => electron.ipcRenderer.invoke("obtener-archivos"),
+  obtenerArchivos: (rutaAssets) => electron.ipcRenderer.invoke("obtener-archivos", rutaAssets),
   obtenerConfiguracion: () => electron.ipcRenderer.invoke("leer-configuracion"),
   guardarConfiguracion: (config) => electron.ipcRenderer.invoke("escribir-configuracion", config),
   seleccionarDirectorio: () => electron.ipcRenderer.invoke("seleccionar-directorio")

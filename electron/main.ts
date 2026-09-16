@@ -51,9 +51,9 @@ function createWindow() {
   }
 }
 // --
-ipcMain.handle("obtener-archivos", () => {
-  const rutaAssets = path.join(process.env.APP_ROOT, "assets");
-  return fs.readdirSync(rutaAssets);
+ipcMain.handle("obtener-archivos", (event, rutaAssets) => {
+  const response = fs.readdirSync(rutaAssets)
+  return response;
 });
 
 ipcMain.handle("leer-configuracion", () => {

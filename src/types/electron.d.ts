@@ -6,10 +6,14 @@ export interface configuracion {
   directorioLoras: string;
 }
 
+export interface ruta {
+  ruta: string;
+}
+
 declare global {
   interface Window {
     electronAPI: {
-      obtenerArchivos: () => Promise<string[]>;
+      obtenerArchivos: (rutaAssets: ruta) => Promise<string[]>;
       obtenerConfiguracion: () => Promise<configuracion>;
       guardarConfiguracion: (configJson: configuracion) => Promise<void>;
       seleccionarDirectorio: () => Promise<string[] | null>;

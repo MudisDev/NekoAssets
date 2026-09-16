@@ -111,7 +111,7 @@ main {
   padding: 2rem;
 }
 
- .contenedor-urls{
+.contenedor-urls {
   display: flex;
   flex-direction: row;
   gap: 2rem;
@@ -119,12 +119,12 @@ main {
   background-color: #1a1a1a;
   height: 5rem;
   align-items: center;
- }
+}
 
- .contenedor-urls button{
+.contenedor-urls button {
   border-width: 0.2rem;
   border-color: black;
- }
+}
 
 #visor-wallpaper {
   background-color: black;
@@ -255,4 +255,16 @@ main {
   font-size: 2rem;
 
   /* text-align: center; */
+}
+
+.formulario {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.formulario input {
+  width: 100%;
+  border-radius: 0.5rem;
+  height: 3rem;
 }
