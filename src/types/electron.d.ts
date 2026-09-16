@@ -17,6 +17,8 @@ declare global {
       obtenerConfiguracion: () => Promise<configuracion>;
       guardarConfiguracion: (configJson: configuracion) => Promise<void>;
       seleccionarDirectorio: () => Promise<string[] | null>;
+      //obtenerImagen: (rutaArchivo: string) => Promise<string[]>;
+      obtenerUrlArchivo: (rutaArchivo: string) => Promise<string>;
     };
   }
 }

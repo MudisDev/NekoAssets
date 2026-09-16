@@ -1,6 +1,6 @@
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, protocol } from 'electron'
 import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
 //--
 import { ipcMain } from "electron";
@@ -56,6 +56,10 @@ ipcMain.handle("obtener-archivos", (event, rutaAssets) => {
   return response;
 });
 
+ipcMain.handle("obtener-url-archivo", (event, rutaArchivo) => {
+  return pathToFileURL(rutaArchivo).href;
+});
+
 ipcMain.handle("leer-configuracion", () => {
   const rutaConfig = path.join(process.env.APP_ROOT, "src/config/configuracion.json");
   const contenido = fs.readFileSync(rutaConfig, "utf-8");
@@ -98,4 +102,52 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: "nekoassets",
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true
+    }
+  }
+]);
+
+app.whenReady().then(() => {
+
+  protocol.handle("nekoassets", async (request) => {
+
+    const url = new URL(request.url);
+
+    const rutaArchivo = url.searchParams.get("path");
+
+    console.log("PROTOCOLO -> ", rutaArchivo);
+
+    if (!rutaArchivo) {
+      return new Response("Ruta no especificada", {
+        status: 400
+      });
+    }
+
+    try {
+      const archivo = await fs.promises.readFile(rutaArchivo);
+
+      return new Response(archivo, {
+        headers: {
+          "Content-Type": "image/png"
+        }
+      });
+
+    } catch (error) {
+
+      console.error("Error cargando imagen:", error);
+
+      return new Response("Archivo no encontrado", {
+        status: 404
+      });
+    }
+  });
+
+  createWindow();
+});

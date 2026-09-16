@@ -18,16 +18,19 @@ export const Configuracion = ({ funcionConfiguracion, json, setJson }) => {
 
     const seleccionarDirectorioCheckpoints = async () => {
         const response = await window.electronAPI.seleccionarDirectorio();
-        console.log("DIRECTORIO checkpoints -> ", response);
         if (response)
             setJson({ ...json, directorioCheckpoints: response });
     }
 
     const seleccionarDirectorioLoras = async () => {
         const response = await window.electronAPI.seleccionarDirectorio();
-        console.log("DIRECTORIO loras -> ", response);
         if (response)
             setJson({ ...json, directorioLoras: response });
+    }
+    const seleccionarDirectorioOutput = async () => {
+        const response = await window.electronAPI.seleccionarDirectorio();
+        if (response)
+            setJson({ ...json, directorioOutput: response });
     }
 
 
@@ -50,6 +53,11 @@ export const Configuracion = ({ funcionConfiguracion, json, setJson }) => {
                 <div className='contenedor-urls'>
                     <p>{json.directorioLoras}</p>
                     <button onClick={seleccionarDirectorioLoras}>SD</button>
+                </div>
+                <p><strong>Directorio Output</strong></p>
+                <div className='contenedor-urls'>
+                    <p>{json.directorioOutput}</p>
+                    <button onClick={seleccionarDirectorioOutput}>SD</button>
                 </div>
                 {/* <p><strong>Clave de configuracion - </strong>{json.clave}</p> */}
 

@@ -15,13 +15,13 @@ interface comfyui {
 }
 
 
-export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json }) => {
+export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, locales }) => {
 
     /*     const { data: listaWallpapers, fetchData: consultarWallpapers }
             = useFetch<wallpaper[]>({ endpoint: mostrarImagenes, metodo: 'GET' }) */
 
     //useEffect(() => { consultarWallpapers() }, [])
-
+    const [listaLocales, setListaLocales] = React.useState<string[]>([]);
     const [listaCheckpoints, setListaCheckpoints] = React.useState<string[]>([]);
     const [checkopointSeleccionado, setCheckpointSeleccionado] = React.useState<string>("");
 
@@ -53,11 +53,29 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json }
         console.log("Respuesta Generacion -> ", response);
     }
 
-    useEffect(() => {
-        //if (!listaCheckpoints || listaCheckpoints.length === 0) return;
-        console.log("lista Bv -> ", listaCheckpoints);
-    }, [listaCheckpoints])
+    //useEffect(() => {
+    //if (!listaCheckpoints || listaCheckpoints.length === 0) return;
+    // console.log("lista Bv -> ", listaCheckpoints);
+    // }, [listaCheckpoints])
 
+    const cargarHistorial = async () => {
+        const archivos = await window.electronAPI.obtenerArchivos(
+            json.directorioOutput
+        );
+
+        console.log("Outputs -> ", archivos);
+
+        const listaAdaptada = archivos.map((archivo) => {
+            const rutaArchivo =
+                `${json.directorioOutput}\\${archivo}`;
+
+            return `nekoassets://local?path=${encodeURIComponent(rutaArchivo)}`;
+        });
+
+        console.log("URLs -> ", listaAdaptada);
+
+        setListaLocales(listaAdaptada);
+    };
     return (
         <div id='contenido-principal'>
             {limpieza && (<div className='placeholder'><p>Bienvenido a <strong>NekoAssets</strong></p><p>Selecciona una opcion del menu lateral para comenzar.</p></div>)}
@@ -106,6 +124,20 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json }
                 </div>
             )}
 
+            {!limpieza && locales && (
+                <>
+                    <button onClick={cargarHistorial}>Cargar Locales</button>
+                    {listaLocales.map((wallpaper) => (
+                        <button
+                            className="wallpaper"
+                            key={wallpaper}
+                        >
+                            <img src={wallpaper} />
+                        </button>
+                    ))}
+
+                </>
+            )}
 
         </div>
     )

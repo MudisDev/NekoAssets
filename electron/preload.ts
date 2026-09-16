@@ -31,4 +31,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   obtenerConfiguracion: () => ipcRenderer.invoke("leer-configuracion"),
   guardarConfiguracion: (config: configuracion) => ipcRenderer.invoke("escribir-configuracion", config),
   seleccionarDirectorio: () => ipcRenderer.invoke("seleccionar-directorio"),
+  obtenerUrlArchivo: (rutaArchivo: string) =>  ipcRenderer.invoke("obtener-url-archivo", rutaArchivo),
 });

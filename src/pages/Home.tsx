@@ -31,6 +31,7 @@ interface configuracionAPI {
   //clave: string;
   directorioCheckpoints: string;
   directorioLoras: string;
+  directorioOutput: string;
 }
 
 export const Home = () => {
@@ -40,6 +41,7 @@ export const Home = () => {
   const [parametros, setParametros] = React.useState<string | null>(null);
   const [seleccion, setSeleccion] = React.useState<number | null>(null);
   const [limpiar, setLimpiar] = React.useState<boolean>(true);
+  const [mostrarArchivosLocales, setMostrarArchivosLocales] = React.useState<boolean>(false);
 
   const [wallpaperSeleccionado, setWallpaperSeleccionado] = React.useState<string>('');
 
@@ -91,8 +93,8 @@ export const Home = () => {
       </header>
 
       <main>
-        <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} formulario={setVerFormulario} json={configuracionJson} />
-        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} formulario={verFormulario} json={configuracionJson}/>
+        <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} formulario={setVerFormulario} json={configuracionJson} setLocales={setMostrarArchivosLocales} />
+        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} formulario={verFormulario} json={configuracionJson} locales={mostrarArchivosLocales}/>
         <Inspector wallpaper={wallpaperData} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
 
         {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} json={configuracionJson} setJson={setConfiguracionJson} />)}
