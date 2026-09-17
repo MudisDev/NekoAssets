@@ -29,6 +29,8 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
     const [promptPositivo, setPromptPositivo] = React.useState<string>("");
     const [promptNegativo, setPromptNegativo] = React.useState<string>("");
 
+    const [idPrompt, setIdPrompt] = React.useState<string>("");
+
     // useEffect(() => {
     const cargarListadoCheckpoints = async () => {
         const archivos = await window.electronAPI.obtenerArchivos(json.directorioCheckpoints);
@@ -51,6 +53,7 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
         }
         const response = await Workflow(parametros);
         console.log("Respuesta Generacion -> ", response);
+        setIdPrompt(response.prompt_id);
     }
 
     //useEffect(() => {
@@ -76,6 +79,15 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
 
         setListaLocales(listaAdaptada);
     };
+    const urlDatosGenerativos = `http://localhost:3000/consultar_info/${idPrompt}`;
+    const { data: datosObtenidos, fetchData: consultarDatos } = useFetch({ endpoint: urlDatosGenerativos, metodo: "GET" });
+
+    const obtenerDatosGeneracion = async () => {
+
+        const response = await consultarDatos(/* { id_prompt: idPrompt } */)
+        console.log("DATOS OBTENIDOS -> ", response);
+    }
+
     return (
         <div id='contenido-principal'>
             {limpieza && (<div className='placeholder'><p>Bienvenido a <strong>NekoAssets</strong></p><p>Selecciona una opcion del menu lateral para comenzar.</p></div>)}
@@ -121,6 +133,9 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
                         disabled={promptNegativo === "" || promptPositivo === "" || semilla === "" || checkopointSeleccionado === ""}
                     >
                         Generar Asset</button>
+
+                    <p>ID prompt - {idPrompt}</p>
+                    <button disabled={idPrompt === ""} onClick={obtenerDatosGeneracion}>Obtener informacion</button>
                 </div>
             )}
 

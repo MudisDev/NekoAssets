@@ -151,3 +151,12 @@ app.post("/comfyui", async (req, res) => {
     });
   }
 });
+
+app.get("/consultar_info/:id_prompt", async (req, res) => {
+  const id_prompt = req.params.id_prompt;
+  const url = `http://localhost:8188/history/${id_prompt}`;
+
+  const response = await fetch(url);
+  const resultado = await response.json();
+  res.json(resultado);
+});
