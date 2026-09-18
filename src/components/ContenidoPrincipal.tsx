@@ -31,6 +31,9 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
 
     const [idPrompt, setIdPrompt] = React.useState<string>("");
 
+    const [generacion, setGeneracion] = React.useState(null);
+    const [imagenGenerada, setImagenGenerada] = React.useState(null);
+
     // useEffect(() => {
     const cargarListadoCheckpoints = async () => {
         const archivos = await window.electronAPI.obtenerArchivos(json.directorioCheckpoints);
@@ -84,9 +87,112 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
 
     const obtenerDatosGeneracion = async () => {
 
-        const response = await consultarDatos(/* { id_prompt: idPrompt } */)
-        console.log("DATOS OBTENIDOS -> ", response);
+        const resultado = await consultarDatos(/* { id_prompt: idPrompt } */)
+        console.log("DATOS OBTENIDOS -> ", resultado);
+
+        const historial = resultado[idPrompt];
+
+        const workflow = historial.prompt[2];
+
+        const generacion = {
+            id_prompt: idPrompt,
+
+            prompt_positivo:
+                workflow["6"].inputs.text,
+
+            prompt_negativo:
+                workflow["7"].inputs.text,
+
+            semilla:
+                workflow["3"].inputs.seed,
+
+            checkpoint:
+                workflow["4"].inputs.ckpt_name,
+
+            sampler:
+                workflow["3"].inputs.sampler_name,
+
+            scheduler:
+                workflow["3"].inputs.scheduler,
+
+            steps:
+                workflow["3"].inputs.steps,
+
+            cfg:
+                workflow["3"].inputs.cfg,
+        };
+
+        const imagen = historial.outputs["9"].images[0];
+
+        console.log(imagen.filename);
+
+        const ruta = `${json.directorioOutput}\\${imagen.filename}`;
+
+        const urlArchivo = await window.electronAPI.obtenerUrlArchivo(ruta);
+
+        setGeneracion({
+            id_prompt: idPrompt,
+            prompt_positivo: workflow["6"].inputs.text,
+            prompt_negativo: workflow["7"].inputs.text,
+            semilla: workflow["3"].inputs.seed,
+            checkpoint: workflow["4"].inputs.ckpt_name,
+            sampler: workflow["3"].inputs.sampler_name,
+            scheduler: workflow["3"].inputs.scheduler,
+            steps: workflow["3"].inputs.steps,
+            cfg: workflow["3"].inputs.cfg,
+        });
+
+        setImagenGenerada({
+            nombre_archivo: imagen.filename,
+            ruta: ruta,
+        });
     }
+
+    const urlRegistrarAsset = "http://localhost:3000/assets/registrar-asset";
+
+    const {
+        fetchData: registrarAsset
+    } = useFetch({
+        endpoint: urlRegistrarAsset,
+        metodo: "POST"
+    });
+
+    const registrarGeneracionBD = async () => {
+
+        if (!generacion || !imagenGenerada) {
+            console.log("Faltan datos para registrar");
+            return;
+        }
+
+        const datos = {
+            imagen: {
+                nombre_archivo: imagenGenerada.nombre_archivo,
+                ruta: imagenGenerada.ruta
+            },
+
+            generacion: {
+                id_prompt: generacion.id_prompt,
+                prompt_positivo: generacion.prompt_positivo,
+                prompt_negativo: generacion.prompt_negativo,
+                semilla: generacion.semilla,
+                checkpoint: generacion.checkpoint,
+                sampler: generacion.sampler,
+                scheduler: generacion.scheduler,
+                steps: generacion.steps,
+                cfg: generacion.cfg,
+
+                // todavía no tienes imagen de referencia
+                id_imagen_referencia: null,
+
+                // Express lo va a completar con el insertId
+                id_imagen_salida: null
+            }
+        };
+
+        const response = await registrarAsset(datos);
+
+        console.log("Registro BD -> ", response);
+    };
 
     return (
         <div id='contenido-principal'>
@@ -136,6 +242,13 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
 
                     <p>ID prompt - {idPrompt}</p>
                     <button disabled={idPrompt === ""} onClick={obtenerDatosGeneracion}>Obtener informacion</button>
+
+                    <button
+                        disabled={!generacion || !imagenGenerada}
+                        onClick={registrarGeneracionBD}
+                    >
+                        Registrar en BD
+                    </button>
                 </div>
             )}
 

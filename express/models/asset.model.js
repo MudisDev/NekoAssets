@@ -9,9 +9,9 @@ export async function obtenerImagenes() {
 export async function registrarEnTablaImagen(imagen) {
   const [resultado] = await db.execute(
     `INSERT INTO imagen
-        (id_asset, nombre_archivo, ruta)
-        VALUES (?, ?, ?)`,
-    [imagen.id_asset, imagen.nombre_archivo, imagen.ruta],
+        ( nombre_archivo, ruta)
+        VALUES ( ?, ?)`,
+    [imagen.nombre_archivo, imagen.ruta],
   );
 
   return resultado;
