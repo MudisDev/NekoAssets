@@ -252,19 +252,26 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
                 </div>
             )}
 
-            {!limpieza && locales && (
-                <>
-                    <button onClick={cargarHistorial}>Cargar Locales</button>
-                    {listaLocales.map((wallpaper) => (
-                        <button
-                            className="wallpaper"
-                            key={wallpaper}
-                        >
-                            <img src={wallpaper} />
-                        </button>
-                    ))}
+            {!limpieza && locales && data?.length !== 0 && (
+                <div className='contenedor-wallpapers'>
 
-                </>
+                    {data?.map(wallpaper => {
+
+                        const url =
+                            `nekoassets://local?path=${encodeURIComponent(wallpaper.ruta)}`;
+
+                        return (
+                            <button
+                                className='wallpaper'
+                                key={wallpaper.id_imagen}
+                                onClick={() => funcion(wallpaper.id_imagen)}
+                            >
+                                <img src={url} />
+                            </button>
+                        );
+                    })}
+
+                </div>
             )}
 
         </div>

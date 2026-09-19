@@ -1,48 +1,64 @@
-  import {
-    obtenerImagenes,
-    registrarEnTablaGeneracion,
-    registrarEnTablaImagen,
-  } from "../models/asset.model.js";
+import {
+  obtenerImagenes,
+  registrarEnTablaGeneracion,
+  registrarEnTablaImagen,
+  mostrarImagenesGeneradasHistorial,
+} from "../models/asset.model.js";
 
-  export async function mostrarImagenes(req, res) {
-    try {
-      const imagenes = await obtenerImagenes();
+export async function mostrarImagenes(req, res) {
+  try {
+    const imagenes = await obtenerImagenes();
 
-      res.json({
-        success: true,
-        data: imagenes,
-      });
-    } catch (error) {
-      console.error(error);
+    res.json({
+      success: true,
+      data: imagenes,
+    });
+  } catch (error) {
+    console.error(error);
 
-      res.status(500).json({
-        success: false,
-        error: "Error al obtener imágenes",
-      });
-    }
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener imágenes",
+    });
   }
+}
 
-  export async function registrarImagen(req, res) {
-    const imagen = req.body.imagen;
-    const generacion = req.body.generacion;
+export async function registrarImagen(req, res) {
+  const imagen = req.body.imagen;
+  const generacion = req.body.generacion;
 
-    try {
-      const resultadoImagen = await registrarEnTablaImagen(imagen);
+  try {
+    const resultadoImagen = await registrarEnTablaImagen(imagen);
 
-      generacion.id_imagen_salida = resultadoImagen.insertId;
+    generacion.id_imagen_salida = resultadoImagen.insertId;
 
-      await registrarEnTablaGeneracion(generacion);
+    await registrarEnTablaGeneracion(generacion);
 
-      res.json({
-        success: true,
-        data: "Se han registrado la imagen y la generación con éxito",
-      });
-    } catch (error) {
-      console.error(error);
+    res.json({
+      success: true,
+      data: "Se han registrado la imagen y la generación con éxito",
+    });
+  } catch (error) {
+    console.error(error);
 
-      res.status(500).json({
-        success: false,
-        error: "Error al registrar imagen y generación",
-      });
-    }
+    res.status(500).json({
+      success: false,
+      error: "Error al registrar imagen y generación",
+    });
   }
+}
+
+export async function mostrarImagenesGeneradas(req, res) {
+  try {
+    const imagenesGeneradas = await mostrarImagenesGeneradasHistorial();
+
+    res.json(imagenesGeneradas);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener imágenes",
+    });
+  }
+}

@@ -34,6 +34,14 @@ interface configuracionAPI {
   directorioOutput: string;
 }
 
+interface wallpaperGenerado {
+  id_imagen: number;
+  id_asset: number | null;
+  nombre_archivo: string;
+  ruta: string;
+  fecha_creacion: string;
+}
+
 export const Home = () => {
 
   const [endpoint, setEndpoint] = React.useState<string | null>(null);
@@ -51,7 +59,7 @@ export const Home = () => {
   const [verFormulario, setVerFormulario] = React.useState<boolean>(false);
 
   const { data, fetchData, }
-    = useFetch<interfaceListaWallpapers>({ endpoint: endpoint, metodo: metodo, params: parametros });
+    = useFetch<interfaceListaWallpapers | wallpaperGenerado>({ endpoint: endpoint, metodo: metodo, params: parametros });
   const { data: wallpaperData, fetchData: consultarWallpaper, }
     = useFetch<interfaceWallpaper>({ endpoint: mostrarImagenVista, metodo: 'GET', });
 
@@ -94,7 +102,7 @@ export const Home = () => {
 
       <main>
         <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} formulario={setVerFormulario} json={configuracionJson} setLocales={setMostrarArchivosLocales} />
-        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} formulario={verFormulario} json={configuracionJson} locales={mostrarArchivosLocales}/>
+        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} formulario={verFormulario} json={configuracionJson} locales={mostrarArchivosLocales} />
         <Inspector wallpaper={wallpaperData} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
 
         {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} json={configuracionJson} setJson={setConfiguracionJson} />)}

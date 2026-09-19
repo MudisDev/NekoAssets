@@ -35,3 +35,6 @@ CREATE TABLE generacion (
     FOREIGN KEY (id_imagen_referencia) REFERENCES imagen (id_imagen),
     FOREIGN KEY (id_imagen_salida) REFERENCES imagen (id_imagen)
 );
+
+SELECT * FROM imagen;
+SELECT * FROM generacion;

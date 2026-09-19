@@ -1,5 +1,5 @@
 import React from 'react'
-import { mostrarImagenes, mostrarImagenesFavoritas } from '../config/urlConfig'
+import { mostrarImagenes, mostrarImagenesFavoritas, mostrarImagenesGeneradas } from '../config/urlConfig'
 
 export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar, formulario, setLocales }) => {
 
@@ -37,6 +37,9 @@ export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar, form
     }
 
     const listarHistorial = () => {
+        funcion1(mostrarImagenesGeneradas);
+        funcion2('GET');
+        //funcion3(null);
         funcionLimpiar(false);
         formulario(false);
         setLocales(true);

@@ -37,3 +37,9 @@ export async function registrarEnTablaGeneracion(generacion) {
   );
   return resultado;
 }
+
+export async function mostrarImagenesGeneradasHistorial() {
+  const [rows] = await db.query("SELECT * FROM imagen");
+
+  return rows;
+}
