@@ -50,6 +50,8 @@ export const Home = () => {
   const [seleccion, setSeleccion] = React.useState<number | null>(null);
   const [limpiar, setLimpiar] = React.useState<boolean>(true);
   const [mostrarArchivosLocales, setMostrarArchivosLocales] = React.useState<boolean>(false);
+  const [dataState, setDataState] = React.useState<interfaceListaWallpapers | wallpaperGenerado | null>(null);
+  const [wallpaperDataState, setWallpaperDataState] = React.useState<interfaceWallpaper | null>(null);
 
   const [wallpaperSeleccionado, setWallpaperSeleccionado] = React.useState<string>('');
 
@@ -77,13 +79,27 @@ export const Home = () => {
     console.log("HOME ", wallpaperSeleccionado);
   }, [wallpaperSeleccionado])
 
+  useEffect(() => {
+    if (!data) return;
+    setDataState(data);
+  }, [data])
+
+  useEffect(() => {
+    if (!wallpaperData) return;
+    setWallpaperDataState(wallpaperData);
+  }, [wallpaperData])
+
+  /*   useEffect(() => {
+      if (!limpiar) return;
+      setDataState(null);
+    }, [limpiar]) */
 
   useEffect(() => {
     const cargarConfiguracionJSON = async () => {
-      console.log("ENTRO A filesyste2");
+      //console.log("ENTRO A filesyste2");
       const archivos = await window.electronAPI.obtenerConfiguracion();
       setConfiguracionJson(archivos);
-      console.log("CONFIGURACION -> ", archivos);
+      //console.log("CONFIGURACION -> ", archivos);
     };
     cargarConfiguracionJSON();
   }, [])
@@ -102,8 +118,8 @@ export const Home = () => {
 
       <main>
         <MenuLateral funcion1={setEndpoint} funcion2={setMetodo} funcion3={setParametros} funcionLimpiar={setLimpiar} formulario={setVerFormulario} json={configuracionJson} setLocales={setMostrarArchivosLocales} />
-        <ContenidoPrincipal data={data} funcion={setSeleccion} limpieza={limpiar} formulario={verFormulario} json={configuracionJson} locales={mostrarArchivosLocales} />
-        <Inspector wallpaper={wallpaperData} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
+        <ContenidoPrincipal data={dataState} setData={setDataState} funcion={setSeleccion} limpieza={limpiar} setLimpieza={setLimpiar} formulario={verFormulario} json={configuracionJson} locales={mostrarArchivosLocales} />
+        <Inspector wallpaper={wallpaperDataState} setWallpaperData={setWallpaperDataState} limpieza={limpiar} funcionVisor={setVisorWallpaper} funcionSeleccionar={setWallpaperSeleccionado} />
 
         {configuracion && (<Configuracion funcionConfiguracion={setConfiguracion} json={configuracionJson} setJson={setConfiguracionJson} />)}
         {visorWallpaper && (<VisorWallpaper funcionVisor={setVisorWallpaper} wallpaper={wallpaperSeleccionado} />)}

@@ -5,7 +5,7 @@ import { useFetch } from '../hooks/useFetch'
     "Success": string;
 } */
 
-export const Inspector = ({ wallpaper, limpieza, funcionVisor, funcionSeleccionar }) => {
+export const Inspector = ({ wallpaper, setWallpaperData, limpieza, funcionVisor, funcionSeleccionar }) => {
 
     //const url = "http://localhost:3000";
 
@@ -14,6 +14,13 @@ export const Inspector = ({ wallpaper, limpieza, funcionVisor, funcionSelecciona
     /* useEffect(() => {
         fetchData();
     }, []) */
+
+    useEffect(() => {
+        if (!limpieza) return;
+        setWallpaperData(null);
+        funcionSeleccionar(null);
+        //setLimpieza(false);
+    }, [limpieza])
 
     const seleccionar = (url) => {
         console.log("funcion SELECCIONAR  ", url);

@@ -15,7 +15,7 @@ interface comfyui {
 }
 
 
-export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, locales }) => {
+export const ContenidoPrincipal = ({ data, setData, funcion, limpieza, setLimpieza, formulario, json, locales }) => {
 
     /*     const { data: listaWallpapers, fetchData: consultarWallpapers }
             = useFetch<wallpaper[]>({ endpoint: mostrarImagenes, metodo: 'GET' }) */
@@ -42,6 +42,12 @@ export const ContenidoPrincipal = ({ data, funcion, limpieza, formulario, json, 
     };
     // cargarListadoCheckpoints();
     //}, [])
+
+    useEffect(() => {
+        if (!limpieza) return;
+        setData(null);
+        //setLimpieza(false);
+    }, [limpieza])
 
     const endpointsubir = "http://localhost:3000/comfyui";
 
