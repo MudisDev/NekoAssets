@@ -43,3 +43,14 @@ export async function mostrarImagenesGeneradasHistorial() {
 
   return rows;
 }
+
+export async function vistaMostrarImagenSeleccionada(id_imagen) {
+  const [rows] = await db.query(
+    `SELECT *
+     FROM vista_imagen_generacion
+     WHERE id_imagen = ?`,
+    [id_imagen],
+  );
+
+  return rows[0];
+}

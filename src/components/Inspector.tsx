@@ -14,6 +14,10 @@ export const Inspector = ({ wallpaper, setWallpaperData, limpieza, funcionVisor,
     /* useEffect(() => {
         fetchData();
     }, []) */
+    /*  if (wallpaper) {
+         const url =
+             `nekoassets://local?path=${encodeURIComponent(wallpaper.ruta)}`;
+     } */
 
     useEffect(() => {
         if (!limpieza) return;
@@ -37,19 +41,28 @@ export const Inspector = ({ wallpaper, setWallpaperData, limpieza, funcionVisor,
 
             {(limpieza || !wallpaper) && (<div className='placeholder'><p><strong>Inspector</strong></p><p>Ningun Asset seleccionado</p><p>Selecciona un asset para ver información y propiedades. </p></div>)}
             {!limpieza && wallpaper && (<>
-                <img src={wallpaper.url} style={{ width: "30rem", aspectRatio: 9 / 16, objectFit: 'cover', borderRadius: "1rem" }} />
+                {/* <img src={wallpaper.url} style={{ width: "30rem", aspectRatio: 9 / 16, objectFit: 'cover', borderRadius: "1rem" }} /> */}
+                <img src={`nekoassets://local?path=${encodeURIComponent(wallpaper.ruta)}`} style={{ width: "30rem", aspectRatio: 9 / 16, objectFit: 'cover', borderRadius: "1rem" }} />
                 <p>id imagen: {wallpaper.id_imagen}</p>
-                <p>semilla: {wallpaper.semilla}</p>
-                <p>fecha insercion: {wallpaper.fecha_insercion}</p>
-                <p>fecha actualizacion: {wallpaper.fecha_actualizacion}</p>
-                <p>id modelo base: {wallpaper.id_modelo_base}</p>
-                <p>nombre modelo base: {wallpaper.nombre_modelo_base}</p>
-                <p>imagen listada: {wallpaper.imagen_listada}</p>
+                <p>id asset: {wallpaper.id_asset}</p>
+                <p>nombre archivo: {wallpaper.nombre_archivo}</p>
+                <p>fecha creacion imagen: {wallpaper.fecha_creacion_imagen}</p>
+                <p>ruta: {wallpaper.ruta}</p>
 
-                <p>prompt + general: {wallpaper.prompt_positivo_general}</p>
-                <p>prompt - general: {wallpaper.prompt_negativo_general}</p>
+                <p>id generacion: {wallpaper.id_generacion}</p>
+                <p>id prompt: {wallpaper.id_prompt}</p>
+                <p>prompt + general: {wallpaper.prompt_positivo}</p>
+                <p>prompt - general: {wallpaper.prompt_negativo}</p>
+                <p>checkpoint: {wallpaper.checkpoint}</p>
+                <p>sampler: {wallpaper.sampler}</p>
+                <p>scheduler: {wallpaper.scheduler}</p>
+                <p>steps: {wallpaper.steps}</p>
+                <p>cfg: {wallpaper.cfg}</p>
+                <p>id imagen referencia: {wallpaper.id_imagen_referencia}</p>
+                <p>id imagen salida: {wallpaper.id_imagen_salida}</p>
+                <p>fecha creacion generacion: {wallpaper.fecha_creacion_generacion}</p>
 
-                <button onClick={() => { seleccionar(wallpaper.url) }}>Ver Wallpaper</button>
+                <button onClick={() => { seleccionar(wallpaper.ruta) }}>Ver Wallpaper</button>
             </>)}
         </div>
     )

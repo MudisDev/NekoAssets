@@ -50,14 +50,14 @@ export const MenuLateral = ({ funcion1, funcion2, funcion3, funcionLimpiar, form
             {/*  <div>Menu Lateral</div> */}
             <button onClick={limpiarSeleccion}>Limpiar Selección</button>
             <p>Assets</p>
-            <button onClick={listarImagenes}>Todos</button>
-            <button>Recientes</button>
-            <button onClick={listarFavoritas}>Favoritos</button>
+            <button disabled={true} onClick={listarImagenes}>Todos</button>
+            <button disabled={true}>Recientes</button>
+            <button disabled={true} onClick={listarFavoritas}>Favoritos</button>
             <p>Generacion</p>
             <button onClick={formularioGenerar}>Generaciones</button>
             <button onClick={listarHistorial}>Historial</button>
             <p>Organizacion</p>
-            <button>Colecciones</button>
+            <button disabled={true}>Colecciones</button>
         </div>
     )
 }

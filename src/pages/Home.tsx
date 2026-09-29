@@ -6,7 +6,7 @@ import { MenuLateral } from '../components/MenuLateral';
 import { ContenidoPrincipal } from '../components/ContenidoPrincipal';
 import { Inspector } from '../components/Inspector';
 import { useFetch } from '../hooks/useFetch';
-import { mostrarImagen, mostrarImagenVista } from '../config/urlConfig';
+import { mostrarImagen, mostrarImagenSeleccionada, mostrarImagenVista } from '../config/urlConfig';
 import { Configuracion } from '../components/Configuracion';
 import { VisorWallpaper } from '../components/VisorWallpaper';
 
@@ -63,7 +63,7 @@ export const Home = () => {
   const { data, fetchData, }
     = useFetch<interfaceListaWallpapers | wallpaperGenerado>({ endpoint: endpoint, metodo: metodo, params: parametros });
   const { data: wallpaperData, fetchData: consultarWallpaper, }
-    = useFetch<interfaceWallpaper>({ endpoint: mostrarImagenVista, metodo: 'GET', });
+    = useFetch<interfaceWallpaper>({ endpoint: /* mostrarImagenVista */ mostrarImagenSeleccionada, metodo: 'GET', });
 
   useEffect(() => {
     if (!endpoint) return;
@@ -103,6 +103,13 @@ export const Home = () => {
     };
     cargarConfiguracionJSON();
   }, [])
+
+  useEffect(() => {
+
+    if (!wallpaperData) return;
+    console.log("Wallpaper Seleccionado -> ", wallpaperData);
+
+  }, [wallpaperData])
 
   /*   useEffect(()=>{
       console.log("Home json -> ",configuracionJson);

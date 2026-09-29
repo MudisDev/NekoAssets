@@ -13,3 +13,5 @@ export const mostrarImagenesFavoritas = `${listPath}/mostrar_imagenes_favoritas.
 export const mostrarImagenVista = `${imagetPath}/buscar_imagen_vista.php`;
 
 export const mostrarImagenesGeneradas = "http://localhost:3000/assets/mostrar-imagenes-generadas";
+
+export const mostrarImagenSeleccionada = "http://localhost:3000/assets/mostrar-imagen-seleccionada";

@@ -3,6 +3,7 @@ import {
   registrarEnTablaGeneracion,
   registrarEnTablaImagen,
   mostrarImagenesGeneradasHistorial,
+  vistaMostrarImagenSeleccionada,
 } from "../models/asset.model.js";
 
 export async function mostrarImagenes(req, res) {
@@ -53,6 +54,23 @@ export async function mostrarImagenesGeneradas(req, res) {
     const imagenesGeneradas = await mostrarImagenesGeneradasHistorial();
 
     res.json(imagenesGeneradas);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener imágenes",
+    });
+  }
+}
+
+export async function mostrarImagenSeleccionada(req, res) {
+  //const id_imagen = req.params.id_imagen;
+  const id_imagen = req.query.id_imagen;
+  try {
+    const imagenSeleccionada = await vistaMostrarImagenSeleccionada(id_imagen);
+
+    res.json(imagenSeleccionada);
   } catch (error) {
     console.error(error);
 

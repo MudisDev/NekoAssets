@@ -37,4 +37,30 @@ CREATE TABLE generacion (
 );
 
 SELECT * FROM imagen;
+
 SELECT * FROM generacion;
+
+CREATE VIEW vista_imagen_generacion AS
+SELECT
+    i.id_imagen,
+    i.id_asset,
+    i.nombre_archivo,
+    i.ruta,
+    i.fecha_creacion AS fecha_creacion_imagen,
+    g.id_generacion,
+    g.id_prompt,
+    g.prompt_positivo,
+    g.prompt_negativo,
+    g.semilla,
+    g.checkpoint,
+    g.sampler,
+    g.scheduler,
+    g.steps,
+    g.cfg,
+    g.id_imagen_referencia,
+    g.id_imagen_salida,
+    g.fecha_creacion AS fecha_creacion_generacion
+FROM imagen i
+    JOIN generacion g ON i.id_imagen = g.id_imagen_salida;
+
+    SELECT * FROM vista_imagen_generacion WHERE id_imagen = 1;
